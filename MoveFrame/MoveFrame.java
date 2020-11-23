@@ -1,37 +1,50 @@
-import java.awt.*; 
-import javax.swing.*; 
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 
-class Frame1 extends JFrame{
-	Frame1(String a){
-		setTitle(a);
-		setSize(1000,600); 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setBackground(Color.pink);
-		setLayout(new FlowLayout());
-		JButton b = new JButton("click me");
-		add(b); 
-		setVisible(true);
-	} 
-} 
+	class first extends JFrame implements ActionListener{
+		first(String str){
+			super(str);
+			getContentPane().setBackground(Color.red);
+			setSize(800,600);
+			
+			JButton btn = new JButton("Click");
+			btn.addActionListener(this);
+			add(btn);
 
-class Frame2 extends JFrame{
-	Frame2(String a){
-		setTitle(a);
-		setSize(1000,600); 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setBackground(Color.blue); 
-		setLayout(new FlowLayout());
-		JButton b = new JButton("click me");
-		add(b); 
-		setVisible(true);
-	} 
-} 
-
-public class MoveFrame{
-	
-	public static void main(String ar[]){
-		Frame1 f1 = new Frame1("First Frame");
-		Frame2 f2 = new Frame2("Second Frame");      
+			setLayout(new FlowLayout());
+		}
+		public void actionPerformed(ActionEvent e){
+			second s = new second("Second");
+			s.setVisible(true);
+			setVisible(false);	
+		}
+						
 	}
 
-} 
+	class second extends JFrame implements ActionListener{
+		second(String str){
+			super(str);
+			getContentPane().setBackground(Color.blue);
+			setSize(800,600);
+
+			setLayout(new FlowLayout());
+
+			JButton btn1 = new JButton("Back");
+			btn1.addActionListener(this);	
+			add(btn1);
+		}
+		
+		public void actionPerformed(ActionEvent e){
+			dispose();
+			first f = new first("First");
+			f.setVisible(true);
+		}
+	}
+
+	public class MoveFrame{
+		public static void main(String ar[]){
+			first f = new first("First");
+			f.setVisible(true);
+		}
+	}

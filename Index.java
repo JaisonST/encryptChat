@@ -3,8 +3,10 @@ import javax.swing.*;
 import java.awt.event.*;
 
 class Screen extends JFrame{
+	public String id; 
 	Screen(String sc){
 		setTitle(sc); 
+		id = sc;  
 		setSize(1000,600); 
 	  	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		setVisible(false); 
@@ -28,13 +30,13 @@ public class Index extends Thread{
 		} 
 
 		public void actionPerformed(ActionEvent e){
-			login = false; 
-			home = true; 
+			screenSetState(hs.id); 
 		}
 	
 	}
 	
 	static class HomeScreen extends Screen implements ActionListener{
+		
 		public HomeScreen(String a){
 			super(a); 
 			JButton b = new JButton("Switch");
@@ -43,40 +45,36 @@ public class Index extends Thread{
 		}
  
 		public void actionPerformed(ActionEvent e){
-			home = false; 
-			login = true; 
+			screenSetState(ls.id);  
 		}
 	
 	}
 
- 	static boolean login = true; 
-	static boolean home = false;
-
-	static LoginScreen ls = new LoginScreen("LoginScreen");
-	static HomeScreen hs = new HomeScreen("HomeScreen");  
 	
-	public void screenSetState(HomeScreen hs, LoginScreen ls){
-		for(;;){
-			if(login){
+
+	static HomeScreen hs = new HomeScreen("HomeScreen");  
+	static LoginScreen ls = new LoginScreen("LoginScreen");
+	
+	public static void screenSetState(String val){
+			if(val.equals(ls.id)){
 				hs.isVisible(false); 
 				ls.isVisible(true); 
-			}else if(home){
+			}else if(val.equals(hs.id)){
 				ls.isVisible(false); 
 				hs.isVisible(true); 
 			} 
-			try{
-				Thread.sleep(100);  
-			}catch(InterruptedException e){}
-		} 
-	}
-  	
+  	}
+	
 	public static void main(String ar[]){
-		Index mainProg = new Index(); 
-		mainProg.start();  
+		screenSetState(hs.id); 
+		System.out.println(hs.id); 
+		System.out.println(ls.id); 
+		//Index mainProg = new Index(); 
+		//mainProg.start();  
 	}
 
-	public void run(){
-		screenSetState(hs,ls);
-	} 
+	//public void run(){
+	//  	screenSetState(hs,ls);
+	//} 
 
 } 

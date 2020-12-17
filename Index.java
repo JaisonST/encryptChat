@@ -1,3 +1,5 @@
+import UIComp.LoginScreenUI;
+
 import java.awt.*;
 import javax.swing.*; 
 import java.awt.event.*;
@@ -21,19 +23,18 @@ class Screen extends JFrame{
 
 public class Index extends Thread{
 	
-	static class LoginScreen extends Screen implements ActionListener{
-		public LoginScreen(String a){
-			super(a);
-			JButton b = new JButton("Switch");
-			b.addActionListener(this);
-			add(b);    
+	static class LoginScreen extends LoginScreenUI implements ActionListener{
+		public LoginScreen(){
+			super();
+			btn.addActionListener(this);
 		} 
-
+		public static String id = "LoginScreen"; 
+		
 		public void actionPerformed(ActionEvent e){
-			screenSetState(hs.id); 
+			screenSetState(hs.id);  
 		}
-	
 	}
+
 	
 	static class HomeScreen extends Screen implements ActionListener{
 		
@@ -53,7 +54,7 @@ public class Index extends Thread{
 	
 
 	static HomeScreen hs = new HomeScreen("HomeScreen");  
-	static LoginScreen ls = new LoginScreen("LoginScreen");
+	static LoginScreen ls = new LoginScreen();
 	
 	public static void screenSetState(String val){
 			if(val.equals(ls.id)){
@@ -66,7 +67,7 @@ public class Index extends Thread{
   	}
 	
 	public static void main(String ar[]){
-		screenSetState(hs.id); 
+		screenSetState(ls.id); 
 		System.out.println(hs.id); 
 		System.out.println(ls.id); 
 		//Index mainProg = new Index(); 

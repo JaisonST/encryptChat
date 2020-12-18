@@ -1,4 +1,5 @@
 import UIComp.LoginScreenUI;
+import URLHandler.*; 
 
 import java.awt.*;
 import javax.swing.*; 
@@ -20,9 +21,14 @@ class Screen extends JFrame{
 
 } 
 
+class Users{
+	public String username, email, password;
+}
 
 public class Index extends Thread{
-	
+	static UrlTest server = new UrlTest();
+	static Users user = new Users();
+
 	static class LoginScreen extends LoginScreenUI implements ActionListener{
 		public LoginScreen(){
 			super();
@@ -31,8 +37,16 @@ public class Index extends Thread{
 		public static String id = "LoginScreen"; 
 		
 		public void actionPerformed(ActionEvent e){
-			screenSetState(hs.id);  
+			user.email = username.getText();
+			user.password = password.getText();
+			
+			boolean res = server.login(user.email,user.password);
+			if(res)
+				screenSetState(hs.id);
+			else
+				this.setError(true);
 		}
+	
 	}
 
 	
@@ -68,10 +82,8 @@ public class Index extends Thread{
 	
 	public static void main(String ar[]){
 		screenSetState(ls.id); 
-		System.out.println(hs.id); 
-		System.out.println(ls.id); 
 		//Index mainProg = new Index(); 
-		//mainProg.start();  
+		//mainProg.start();
 	}
 
 	//public void run(){

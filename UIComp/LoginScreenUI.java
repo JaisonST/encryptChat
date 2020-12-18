@@ -7,6 +7,11 @@ import javax.swing.border.Border;
 	public class LoginScreenUI extends JFrame{
 
 		public JButton btn = new JButton("Login");
+		public JTextField username = new JTextField(10);
+		public JPasswordField password = new JPasswordField(10);
+		public JPanel login = new JPanel();
+
+		JLabel invalid = new JLabel("Invalid login credentials!");
 
 		public LoginScreenUI(){
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -65,8 +70,7 @@ import javax.swing.border.Border;
 			loginPanel.setLayout(null);
 			loginPanel.setBounds(750, 0, 800, 1500);
 			loginPanel.setBackground(Color.WHITE);		
-	 
-			JPanel login = new JPanel();				
+	 				
 			login.setSize(600,400);			
 
 			login.setBackground(new Color(209, 225, 255, 80));
@@ -99,9 +103,7 @@ import javax.swing.border.Border;
 			JLabel icon = new JLabel("", loginImg, JLabel.LEFT);
 			icon.setBounds(250,50,100,100);	
 
-			JTextField username = new JTextField(10);
 			username.setBounds(150,170,300,30);
-			JPasswordField password = new JPasswordField(10);
 			password.setBounds(150,250,300,30);
 
 			Font buttonFont = new Font("Serif", Font.PLAIN, 20);
@@ -110,11 +112,18 @@ import javax.swing.border.Border;
 			btn.setForeground(Color.WHITE);
 			btn.setFont(buttonFont);
 	
+			//INVALID MESSAGE 
+			Font invalidFont = new Font("Serif", Font.PLAIN, 20);
+			invalid.setForeground(Color.RED);
+			invalid.setBounds(210,360, 400, 40);
+			invalid.setVisible(false);
+			invalid.setFont(invalidFont);	
+
 			login.add(icon);
 			login.add(username);
 			login.add(password);	
 			login.add(btn);
-
+			login.add(invalid);
 
 			//Border for the JPanel
 			Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -131,6 +140,11 @@ import javax.swing.border.Border;
 
 		public void isVisible(boolean val){
 			setVisible(val); 
+		}
+
+		public void setError(boolean val){
+			invalid.setVisible(val);
+			this.repaint();
 		}
 	}
 

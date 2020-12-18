@@ -1,5 +1,6 @@
 package URLHandler;
 
+import java.util.*;
 import java.net.*; 
 import java.io.*;
 
@@ -17,17 +18,50 @@ public class UrlTest{
 			return null; 
 		} 	
 	}
+
+	public Map<String,String> getKeyVal(String res){
+		if(res.indexOf("{")==-1){
+			return null; 
+		}
+
+		int keyO = res.indexOf("\"");
+		int keyC = res.indexOf("\"", keyO+1);  
+		int valO = res.indexOf("\"", keyC+1);  
+		int valC = res.indexOf("\"", valO+1);  
+
+		Map<String,String> user = new HashMap<String,String>(); 
+		while(keyO!=-1&&keyC!=-1&&valO!=-1&&valC!=-1){
+			String key = res.substring(keyO+1, keyC); 
+			String val = res.substring(valO+1, valC);
+			user.put(key,val); 
+ 
+			keyO = res.indexOf("\"", valC+1);
+			keyC = res.indexOf("\"", keyO+1);  
+			valO = res.indexOf("\"", keyC+1);  
+			valC = res.indexOf("\"", valO+1);  
+
+		}
+		return user; 
+			
+	}
 	
 	public boolean login(String email, String password){
 		String response = returnVal("login.php?id=\""+email+"\"&key=\""+password+"\"");
 		if(response.equals("0")){
 			return false; 
 		}else{
-			System.out.println(response); 
-			return true; 
+			Map<String,String> user = getKeyVal(response);
+			if(user==null)
+				 return false; 
+			else if(user.get("email").equals(email)){
+				return true; 
+			} 
 		} 
 
+		return false; 
+
 	}
+	
 
 	public void responseList(String json){
 		int openB =json.indexOf("{");		

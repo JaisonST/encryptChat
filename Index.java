@@ -51,14 +51,14 @@ public class Index extends Thread{
 
 	
 	static class HomeScreen extends Screen implements ActionListener{
-		
 		public HomeScreen(String a){
-			super(a); 
-			JButton b = new JButton("Switch");
-			b.addActionListener(this);
-			add(b);    
+			super(a);
+			JButton b = new JButton("Switch"); 
+			b.addActionListener(this); 
+			add(b);
 		}
  
+
 		public void actionPerformed(ActionEvent e){
 			screenSetState(ls.id);  
 		}

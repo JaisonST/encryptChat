@@ -71,13 +71,13 @@ import javax.swing.border.Border;
 			loginPanel.setBounds(750, 0, 800, 1500);
 			loginPanel.setBackground(Color.WHITE);		
 	 				
-			login.setSize(600,400);			
+			login.setSize(600,430);			
 
 			login.setBackground(new Color(209, 225, 255, 80));
 			login.setForeground(Color.BLACK);
 
 			login.setLayout(null);
-			login.setBounds(100, 200, 600, 400);
+			login.setBounds(100, 150, 600, 430);
 			
 			//LOGIN TITLE 
 			JLabel title = new JLabel("         Login");
@@ -103,8 +103,19 @@ import javax.swing.border.Border;
 			JLabel icon = new JLabel("", loginImg, JLabel.LEFT);
 			icon.setBounds(250,50,100,100);	
 
-			username.setBounds(150,170,300,30);
-			password.setBounds(150,250,300,30);
+			Font placeholderFont = new Font("Serif", Font.PLAIN, 20);
+
+			JLabel uname = new JLabel("Username");
+			JLabel pass = new JLabel("Password");
+	
+			uname.setBounds(150,160,300,20);
+			username.setBounds(150,190,300,30);
+
+			pass.setBounds(150,240, 300, 20);
+			password.setBounds(150,270,300,30);
+
+			uname.setFont(placeholderFont);
+			pass.setFont(placeholderFont);
 
 			Font buttonFont = new Font("Serif", Font.PLAIN, 20);
 			btn.setBounds(175,320,250,30);
@@ -119,8 +130,10 @@ import javax.swing.border.Border;
 			invalid.setVisible(false);
 			invalid.setFont(invalidFont);	
 
-			login.add(icon);
+			login.add(icon);	
+			login.add(uname);
 			login.add(username);
+			login.add(pass);
 			login.add(password);	
 			login.add(btn);
 			login.add(invalid);

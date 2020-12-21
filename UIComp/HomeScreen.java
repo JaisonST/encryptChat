@@ -20,9 +20,15 @@ class Chat{
 	public String getText() {
         	return text;
     	} 
+
+	public boolean isSender(){
+		if(id.equals(sender))
+			return true; 
+		return false; 
+	}
 }
 
-class ChatRender extends JTextArea implements ListCellRenderer<String> {
+class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
     final JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
     final JLabel lt = new JLabel();
     String preR = "<html><body style='width: 300px; text-align:right;margin-right:10px;'>";
@@ -35,25 +41,28 @@ class ChatRender extends JTextArea implements ListCellRenderer<String> {
    	lt.setBorder(BorderFactory.createLineBorder(Color.black)); 
 	p.add(lt);
     }
-    @Override
-    public Component getListCellRendererComponent(JList list, String val, int index,
-        boolean isSelected, boolean cellHasFocus) {
+    	@Override
+	public Component getListCellRendererComponent(JList list, Chat val, int index,
+        boolean isSelected, boolean cellHasFocus){
 	
-	FlowLayout l = new FlowLayout(); 
-	l.setAlignment(FlowLayout.LEFT); 	
-	p.setLayout(l);            
-	final String text = val; 
-	lt.setText(preL + text); 
+	Chat c = (Chat) val; 
+	FlowLayout l = new FlowLayout();	
+	final String text = c.getText();
+ 
+	if(c.isSender()){
+		l.setAlignment(FlowLayout.LEFT); 	
+		p.setLayout(l);            
+		lt.setText(preL + text); 
+	}
+	else{
+		l.setAlignment(FlowLayout.RIGHT); 	
+		p.setLayout(l);            
+		lt.setText(preR + text); 
+	}
+ 
 
 	return p; 
 
-        //setText(val);   
-	//setWrapStyleWord(true);
-    	//setLineWrap(true);
-	//setSize(100,getPreferredSize().height);
-	//setEditable(false);
-	//setVisible(true); 
-        //return this;
     }
      
 }
@@ -168,7 +177,7 @@ class ChatRender extends JTextArea implements ListCellRenderer<String> {
 				JScrollPane scrollChats = new JScrollPane(chats);
 				scrollChats.setBounds(0,60,1100,600);
 				main.add(scrollChats);	
-		//		chats.setCellRenderer(new ChatRender());
+				chats.setCellRenderer(new ChatRender());
 
 		}
 

@@ -5,6 +5,22 @@ import java.awt.*;
 import javax.swing.border.Border;
 import java.util.*;
 
+class Chat{
+	String sender; 
+	String receiver; 
+	String text; 
+	String id; 
+	public Chat(HashMap<String, String> m, String idNum){
+		sender = m.get("sender");
+		receiver = m.get("receiver"); 
+		text = m.get("text"); 
+		id = idNum;
+	}
+
+	public String getText() {
+        	return text;
+    	} 
+}
 
 class ChatRender extends JTextArea implements ListCellRenderer<String> {
     final JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -50,7 +66,9 @@ class ChatRender extends JTextArea implements ListCellRenderer<String> {
 			
 		JTextField encrypKey = new JTextField(20);
 		JTextField text = new JTextField(10);
-
+		
+		DefaultListModel<Chat> chatList =  new DefaultListModel<Chat>(); 
+		JList chats = new JList(chatList); 
 		HomeScreen1(){
 			
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -140,47 +158,28 @@ class ChatRender extends JTextArea implements ListCellRenderer<String> {
 				main.add(encryp);
 				main.add(encrypKey);
 	
-				//CHAT PANEL
-				//JPanel chatPanel = new JPanel();
-				//chatPanel.setBackground(Color.WHITE);
-				//chatPanel.setBounds(0,60,1100,600);
-				//chatPanel.setLayout(null);
-
-				//chatPanel.setLayout(new BoxLayout(chatPanel, BoxLayout.Y_AXIS)); 	
 				add(titlePanel);
 				add(bankPersonal);
 				add(main);			
 				
-				ArrayList<JTextArea> c = new ArrayList<JTextArea>(); 
-				DefaultListModel<String> cts =  new DefaultListModel<String>(); 
 				
-				//CHAT BOXES 
-				JTextArea chat2 = new JTextArea();
-				chat2.setText("this is chat 2");
-				chat2.setWrapStyleWord(true);
-    				chat2.setLineWrap(true);
-				chat2.setEditable(false);
-				chat2.setVisible(true);
-
-				c.add(chat2); 
-
-				cts.addElement("text chat1"); 
-				cts.addElement("text chat2text chat2text chat2text chat2text chat2text chat2text chat2text chat2text chat2text chat2text chat2"); 
-				cts.addElement("text chat3"); 
 				
-				JList chats = new JList(cts); 
 				//CHAT PANEL SCROLLABLE 
 				JScrollPane scrollChats = new JScrollPane(chats);
 				scrollChats.setBounds(0,60,1100,600);
 				main.add(scrollChats);	
-				chats.setCellRenderer(new ChatRender());
+		//		chats.setCellRenderer(new ChatRender());
 
 		}
 
-		public void setChat(ArrayList<HashMap<String,String>> A, String id){
+		public void setChats(ArrayList<HashMap<String,String>> A, String id){
+			chatList = new DefaultListModel<Chat>(); 
 			for(HashMap<String, String> M : A){
-
+				Chat c = new Chat(M,id);
+				chatList.addElement(c);  
 			}
+			chats.setModel(chatList); 
+			this.repaint();
 		}
 	}	
 
@@ -189,19 +188,21 @@ class ChatRender extends JTextArea implements ListCellRenderer<String> {
 			HomeScreen1 home = new HomeScreen1();
 			home.repaint();
 
-			Map<String, String> SampleSet = new HashMap<String,String>();
+			HashMap<String, String> SampleSet = new HashMap<String,String>();
 			SampleSet.put("sender","1234");
 			SampleSet.put("receiver","123");
 			SampleSet.put("text","text1");
 
-			Map<String, String> SampleSet2 = new HashMap<String,String>();
+			HashMap<String, String> SampleSet2 = new HashMap<String,String>();
 			SampleSet2.put("sender","123");
 			SampleSet2.put("receiver","1234");
 			SampleSet2.put("text","text2");
 
-			ArrayList<Map<String,String>> L = new ArrayList<Map<String,String>>();
+			ArrayList<HashMap<String,String>> L = new ArrayList<HashMap<String,String>>();
 			L.add(SampleSet);
 			L.add(SampleSet2);
+
+			home.setChats(L,"1234"); 
 		}
 	}	
 		

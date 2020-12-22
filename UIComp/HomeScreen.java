@@ -85,18 +85,19 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 
 				setLayout(null);
 	
-				setSize(1600,1000);
+				setSize(1400,800);
+				setResizable(false);
 				setVisible(true);
 
 				//ENCRYPNET LABEL WITH LOGOUT BUTTON
 				JPanel titlePanel = new JPanel();
 				titlePanel.setBackground(new Color(29, 0, 102));
-				titlePanel.setBounds(0,0,1600,80);
+				titlePanel.setBounds(0,0,1400,80);
 				titlePanel.setVisible(true);
 				titlePanel.setLayout(null);
 
 				JLabel title = new JLabel("Encrypnet");
-				title.setBounds(10,10,1600,60);
+				title.setBounds(10,10,1400,60);
 
 				title.setOpaque(true);
 		
@@ -107,7 +108,7 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 				title.setFont(titleFont);
 
 				//LOGOUT BUTTON
-				logout.setBounds(1400, 10, 120, 60);
+				logout.setBounds(1200, 10, 120, 60);
 				logout.setBackground(Color.WHITE);
 				logout.setForeground(Color.BLUE);
 				
@@ -119,21 +120,23 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 				titlePanel.add(title);
 
 				//BANK PERSONAL PANEL 
-				JPanel bankPersonal = new JPanel();
-				bankPersonal.setBackground(new Color(170, 147, 250));
-				bankPersonal.setBounds(0,80, 500, 920);	
-				bankPersonal.setLayout(null);
-				
-				//Border for the JPanel
-				
-	
+				//JPanel bankPersonal = new JPanel();
+				//bankPersonal.setBackground(new Color(170, 147, 250));
+				//bankPersonal.setBounds(0,80, 450, 790);	
+				//bankPersonal.setLayout(null);
+			
+				JScrollPane scrollContacts = new JScrollPane();
+				scrollContacts.setBackground(new Color(170, 147, 250));
+				scrollContacts.setBounds(0,80, 450, 790);
+				add(scrollContacts);		
+
 				//TEXTFIELD FOR TEXT
-				text.setBounds(10, 670, 900, 40);
+				text.setBounds(10, 600, 800, 40);
 				text.setVisible(true);
 
 				//SEND BUTTON 
 				send.setBackground(new Color(50, 80, 250));
-				send.setBounds(920, 670, 100, 40);
+				send.setBounds(820, 600, 100, 40);
 				send.setForeground(Color.WHITE);
 				
 				Font sendFont = new Font("Serif", Font.PLAIN, 28);	
@@ -141,7 +144,7 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 	
 				//MAIN PANEL
 				JPanel main = new JPanel();
-				main.setBounds(501, 80, 1100, 920);
+				main.setBounds(451, 80, 1100, 920);
 				main.setBackground(new Color(81, 121, 252));
 				main.setLayout(null);
 			
@@ -150,14 +153,14 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 			
 				//ENCRYPTION KEY LABEL 
 				JLabel encryp = new JLabel("Enter Key: ");
-				encryp.setBounds(7, 4, 300, 50);
+				encryp.setBounds(7, 4, 200, 50);
 				encryp.setForeground(Color.WHITE);
 
 				Font keyFont = new Font("Serif", Font.PLAIN, 33);
 				encryp.setFont(keyFont);
 
 				//ENCRYPTION KEY TEXTFIELD
-				encrypKey.setBounds(350,4,650,50);
+				encrypKey.setBounds(250,4,650,50);
 
 				encrypKey.setFont(keyFont);
 				
@@ -168,14 +171,12 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 				main.add(encrypKey);
 	
 				add(titlePanel);
-				add(bankPersonal);
+				//add(bankPersonal);
 				add(main);			
-				
-				
 				
 				//CHAT PANEL SCROLLABLE 
 				JScrollPane scrollChats = new JScrollPane(chats);
-				scrollChats.setBounds(0,60,1100,600);
+				scrollChats.setBounds(0,60,934,530);
 				main.add(scrollChats);	
 				chats.setCellRenderer(new ChatRender());
 

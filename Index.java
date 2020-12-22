@@ -4,7 +4,7 @@ import URLHandler.*;
 import java.awt.*;
 import javax.swing.*; 
 import java.awt.event.*;
-
+import java.util.*;
 
 class Users{
 	public String username, email, password;
@@ -13,7 +13,9 @@ class Users{
 public class Index extends Thread{
 	static UrlTest server = new UrlTest();
 	static Users user = new Users();
-
+	static ArrayList<HashMap<String,String>> chats; 
+	static ArrayList<HashMap<String,String>> contacts;
+	static boolean loginState = false;  
 	static class LoginScreen extends LoginScreenUI implements ActionListener{
 		public LoginScreen(){
 			super();
@@ -26,8 +28,11 @@ public class Index extends Thread{
 			user.password = password.getText();
 			
 			boolean res = server.login(user.email,user.password);
-			if(res)
+			if(res){
 				screenSetState(hs.id);
+				contacts = server.getContacts(user.email);
+				hs.setContacts(contacts);  
+			}
 			else
 				this.setError(true);
 		}
@@ -39,15 +44,25 @@ public class Index extends Thread{
 		public HomeScreen(){
 			super();
 			logout.addActionListener(this);
+			send.addActionListener(this);
 		}
  
 		public static String id = "HomeScreen"; 
 
 		public void actionPerformed(ActionEvent e){
-			user.email = null;
-			user.password = null;
+			if(e.getSource() == logout){
+			
+				user.email = null;
+				user.password = null;
 
-			screenSetState(ls.id);
+				screenSetState(ls.id);
+			}
+			else{
+				String chatText = text.getText();
+				String modified = chatText.replace(" ","%20"); 
+				server.sendChat(user.email,"",modified,selectedChat);
+				text.setText("");
+			} 
 		}
 	
 	}
@@ -57,22 +72,36 @@ public class Index extends Thread{
 	
 	public static void screenSetState(String val){
 			if(val.equals(ls.id)){
+				loginState = false; 
 				hs.isVisible(false); 
 				ls.isVisible(true); 
 			}else if(val.equals(hs.id)){
-				ls.isVisible(false); 
+				ls.isVisible(false);
+				loginState = true;  
 				hs.isVisible(true); 
 			} 
   	}
 	
 	public static void main(String ar[]){
 		screenSetState(ls.id); 
-		//Index mainProg = new Index(); 
-		//mainProg.start();
+		Index mainProg = new Index(); 
+		mainProg.start();
 	}
 
-	//public void run(){
-	//  	screenSetState(hs,ls);
-	//} 
+	public void run(){
+		for(;;){
+		  	if(loginState){
+				if(hs.selectedChat!=null){
+					chats = server.getChats(hs.selectedChat);
+					hs.setChats(chats, user.email); 
+				}
+			}
+
+			//to ensure nothing crashes
+			try{
+				Thread.sleep(400);  
+			}catch(InterruptedException e){}
+		}
+	} 
 
 } 

@@ -51,14 +51,14 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 	final String text = c.getText();
  
 	if(c.isSender()){
-		l.setAlignment(FlowLayout.LEFT); 	
-		p.setLayout(l);            
-		lt.setText(preL + text); 
-	}
-	else{
 		l.setAlignment(FlowLayout.RIGHT); 	
 		p.setLayout(l);            
 		lt.setText(preR + text); 
+	}
+	else{
+		l.setAlignment(FlowLayout.LEFT); 	
+		p.setLayout(l);            
+		lt.setText(preL + text); 
 	}
  
 

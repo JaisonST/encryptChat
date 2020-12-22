@@ -59,7 +59,8 @@ public class Index extends Thread{
 			}
 			else{
 				String chatText = text.getText();
-				server.sendChat(user.email,"",chatText,selectedChat);
+				String modified = chatText.replace(" ","%20"); 
+				server.sendChat(user.email,"",modified,selectedChat);
 				text.setText("");
 			} 
 		}

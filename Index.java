@@ -39,15 +39,24 @@ public class Index extends Thread{
 		public HomeScreen(){
 			super();
 			logout.addActionListener(this);
+			send.addActionListener(this);
 		}
  
 		public static String id = "HomeScreen"; 
 
 		public void actionPerformed(ActionEvent e){
-			user.email = null;
-			user.password = null;
+			if(e.getSource() == logout){
+			
+				user.email = null;
+				user.password = null;
 
-			screenSetState(ls.id);
+				screenSetState(ls.id);
+			}
+			else{
+				String chatText = text.getText();
+				System.out.println(chatText);
+				text.setText("");
+			} 
 		}
 	
 	}

@@ -67,7 +67,40 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
      
 }
 
+class Contact{
+	String fid;
+	String fname; 
+	String chatid; 
 
+	public Contact(HashMap<String, String> m){
+		fid = m.get("fid");
+		fname = m.get("fname"); 
+		chatid = m.get("chatid"); 
+	}
+
+	public String getName(){
+		return fname; 
+	}
+
+}
+
+class ContactRender extends JTextArea implements ListCellRenderer<Contact>{
+     
+        @Override
+        public Component getListCellRendererComponent(JList list, Contact val, int index,
+        boolean isSelected, boolean cellHasFocus){
+        
+        Contact c = (Contact) val;
+	JLabel j = new JLabel();
+	j.setText(val.getName());
+	if(isSelected){
+
+	}
+	return j;  
+        
+    }
+ 
+}
 
 	class HomeScreen1 extends JFrame{
 		JButton logout = new JButton("Logout");
@@ -78,6 +111,8 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 		
 		DefaultListModel<Chat> chatList =  new DefaultListModel<Chat>(); 
 		JList chats = new JList(chatList); 
+		DefaultListModel<Contact> contactList =  new DefaultListModel<Contact>(); 
+		JList contacts = new JList(contactList); 
 		HomeScreen1(){
 			
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -120,15 +155,12 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 				titlePanel.add(title);
 
 				//BANK PERSONAL PANEL 
-				//JPanel bankPersonal = new JPanel();
-				//bankPersonal.setBackground(new Color(170, 147, 250));
-				//bankPersonal.setBounds(0,80, 450, 790);	
-				//bankPersonal.setLayout(null);
 			
-				JScrollPane scrollContacts = new JScrollPane();
+				JScrollPane scrollContacts = new JScrollPane(contacts);
 				scrollContacts.setBackground(new Color(170, 147, 250));
 				scrollContacts.setBounds(0,80, 450, 790);
 				add(scrollContacts);		
+				contacts.setCellRenderer(new ContactRender());
 
 				//TEXTFIELD FOR TEXT
 				text.setBounds(10, 600, 800, 40);
@@ -191,6 +223,17 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 			chats.setModel(chatList); 
 			this.repaint();
 		}
+
+		public void setContacts(ArrayList<HashMap<String,String>> A){
+			contactList = new DefaultListModel<Contact>(); 
+			for(HashMap<String, String> M : A){
+				Contact c = new Contact(M);
+				contactList.addElement(c);  
+			}
+			contacts.setModel(contactList); 
+			//this.repaint();
+
+		}
 	}	
 
 	class HomeScreen{
@@ -212,7 +255,23 @@ class ChatRender extends JTextArea implements ListCellRenderer<Chat>{
 			L.add(SampleSet);
 			L.add(SampleSet2);
 
-			home.setChats(L,"1234"); 
+			HashMap<String,String> Contact1 = new HashMap<String,String>(); 
+			Contact1.put("fid","abcd@yahoo.com");
+			Contact1.put("fname", "Sania");
+			Contact1.put("chatid", "C01");
+
+			HashMap<String,String> Contact2 = new HashMap<String,String>(); 
+			Contact2.put("fid","ad@yahoo.com");
+			Contact2.put("fname", "Jaison");
+			Contact2.put("chatid", "C02");
+
+			
+			ArrayList<HashMap<String,String>> C = new ArrayList<HashMap<String,String>>();
+			C.add(Contact1);
+			C.add(Contact2);
+
+			home.setChats(L,"1234");
+			home.setContacts(C);  
 		}
 	}	
 		

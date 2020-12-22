@@ -1,9 +1,10 @@
-//package UIComp;
+package UIComp;
 
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.Border;
 import java.util.*;
+import javax.swing.event.*;
 
 class Chat{
 	String sender; 
@@ -78,6 +79,10 @@ class Contact{
 		chatid = m.get("chatid"); 
 	}
 
+	public String toString(){
+		return chatid;
+	}
+
 	public String getName(){
 		return fname; 
 	}
@@ -102,18 +107,21 @@ class ContactRender extends JTextArea implements ListCellRenderer<Contact>{
  
 }
 
-	class HomeScreen1 extends JFrame{
-		JButton logout = new JButton("Logout");
-		JButton send = new JButton("Send");
+	public class HomeScreen extends JFrame implements ListSelectionListener{
+		public JButton logout = new JButton("Logout");
+		public JButton send = new JButton("Send");
 			
+		public String selectedChat;
+
 		JTextField encrypKey = new JTextField(20);
-		JTextField text = new JTextField(10);
+		public JTextField text = new JTextField(10);
 		
 		DefaultListModel<Chat> chatList =  new DefaultListModel<Chat>(); 
 		JList chats = new JList(chatList); 
 		DefaultListModel<Contact> contactList =  new DefaultListModel<Contact>(); 
 		JList contacts = new JList(contactList); 
-		HomeScreen1(){
+
+		public HomeScreen(){
 			
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				setTitle("Chats");
@@ -150,13 +158,13 @@ class ContactRender extends JTextArea implements ListCellRenderer<Contact>{
 				Font logoutFont = new Font("Serif", Font.PLAIN, 25);
 				logout.setFont(logoutFont);
 
-
 				titlePanel.add(logout);	
 				titlePanel.add(title);
 
 				//BANK PERSONAL PANEL 
 			
 				JScrollPane scrollContacts = new JScrollPane(contacts);
+				contacts.addListSelectionListener(this);
 				scrollContacts.setBackground(new Color(170, 147, 250));
 				scrollContacts.setBounds(0,80, 450, 790);
 				add(scrollContacts);		
@@ -172,7 +180,7 @@ class ContactRender extends JTextArea implements ListCellRenderer<Contact>{
 				send.setForeground(Color.WHITE);
 				
 				Font sendFont = new Font("Serif", Font.PLAIN, 28);	
-				send.setFont(sendFont);			
+				send.setFont(sendFont);		
 	
 				//MAIN PANEL
 				JPanel main = new JPanel();
@@ -234,45 +242,11 @@ class ContactRender extends JTextArea implements ListCellRenderer<Contact>{
 			//this.repaint();
 
 		}
+
+		public void valueChanged(ListSelectionEvent e){
+			selectedChat = contacts.getSelectedValue().toString();
+		}			 
+
 	}	
 
-	class HomeScreen{
-		public static void main(String ar[]){
-			HomeScreen1 home = new HomeScreen1();
-			home.repaint();
-
-			HashMap<String, String> SampleSet = new HashMap<String,String>();
-			SampleSet.put("sender","1234");
-			SampleSet.put("receiver","123");
-			SampleSet.put("text","text1");
-
-			HashMap<String, String> SampleSet2 = new HashMap<String,String>();
-			SampleSet2.put("sender","123");
-			SampleSet2.put("receiver","1234");
-			SampleSet2.put("text","text2");
-
-			ArrayList<HashMap<String,String>> L = new ArrayList<HashMap<String,String>>();
-			L.add(SampleSet);
-			L.add(SampleSet2);
-
-			HashMap<String,String> Contact1 = new HashMap<String,String>(); 
-			Contact1.put("fid","abcd@yahoo.com");
-			Contact1.put("fname", "Sania");
-			Contact1.put("chatid", "C01");
-
-			HashMap<String,String> Contact2 = new HashMap<String,String>(); 
-			Contact2.put("fid","ad@yahoo.com");
-			Contact2.put("fname", "Jaison");
-			Contact2.put("chatid", "C02");
-
-			
-			ArrayList<HashMap<String,String>> C = new ArrayList<HashMap<String,String>>();
-			C.add(Contact1);
-			C.add(Contact2);
-
-			home.setChats(L,"1234");
-			home.setContacts(C);  
-		}
-	}	
-		
 	

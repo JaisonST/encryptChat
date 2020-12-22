@@ -19,7 +19,8 @@ import javax.swing.border.Border;
 
 			setLayout(null);
 
-			setSize(1600,1000);
+			setSize(1400,800);
+			setResizable(false);
 			setVisible(false);
 
 			JPanel encrypnet = new JPanel();
@@ -28,21 +29,8 @@ import javax.swing.border.Border;
 			//HOME PANEL
 			encrypnet.setSize(800,1500);
 			encrypnet.setLayout(null);
-			encrypnet.setBounds(0,0,800,1500);
+			encrypnet.setBounds(0,0,650,800);
 			encrypnet.setBackground(new Color(50, 80, 250));
-			
-			//Background for the panel
-			//BACKGROUND IMAGE
-			ImageIcon backgroundImg = new ImageIcon("loginBackground.jpg");
-			
-			//Resizing the image
-			Image img = backgroundImg.getImage();
-			Image resize = img.getScaledInstance(800,1500,img.SCALE_SMOOTH);
-			backgroundImg = new ImageIcon(resize);
-			JLabel background = new JLabel("", backgroundImg, JLabel.LEFT);
-			background.setBounds(0,0, 800, 1500);
-
-			//encrypnet.add(background);
 
 			//Icon 
 			ImageIcon ChatImg = new ImageIcon("chaticon.png");
@@ -52,7 +40,7 @@ import javax.swing.border.Border;
 			Image resizeChat = chatIcon.getScaledInstance(300,300, chatIcon.SCALE_SMOOTH);
 			ChatImg = new ImageIcon(resizeChat);
 			JLabel iconChat = new JLabel("", ChatImg, JLabel.LEFT);
-			iconChat.setBounds(200, 200, 300, 300);
+			iconChat.setBounds(150, 150, 300, 300);
 			
 			encrypnet.add(iconChat);
 
@@ -60,15 +48,15 @@ import javax.swing.border.Border;
 			JLabel ChatTitle = new JLabel("Encrypnet");
 			Font plainFont = new Font("Serif", Font.PLAIN, 70);
 			ChatTitle.setFont(plainFont);
-			ChatTitle.setBounds(200,500, 300, 90);
+			ChatTitle.setBounds(150,450, 300, 90);
 			ChatTitle.setForeground(Color.WHITE);
 			
 			encrypnet.add(ChatTitle);
 			
 			//LOGIN PANEL
-			loginPanel.setSize(800,1500);
+			loginPanel.setSize(700,800);
 			loginPanel.setLayout(null);
-			loginPanel.setBounds(750, 0, 800, 1500);
+			loginPanel.setBounds(650, 0, 750, 800);
 			loginPanel.setBackground(Color.WHITE);		
 	 				
 			login.setSize(600,430);			
@@ -77,7 +65,7 @@ import javax.swing.border.Border;
 			login.setForeground(Color.BLACK);
 
 			login.setLayout(null);
-			login.setBounds(100, 150, 600, 430);
+			login.setBounds(75, 150, 600, 430);
 			
 			//LOGIN TITLE 
 			JLabel title = new JLabel("         Login");

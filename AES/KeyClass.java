@@ -3,6 +3,7 @@ package AES;
 /*
 This algorthm was a public alogrthm found in
 https://howtodoinjava.com/java/java-security/java-aes-encryption-example/
+https://thealgorithms.github.io/ 
 */
 
 import java.io.UnsupportedEncodingException;
@@ -16,56 +17,45 @@ import javax.crypto.spec.SecretKeySpec;
  
 public class KeyClass{
  
-    private static SecretKeySpec secretKey;
-    private static byte[] key;
- 
-    public static void setKey(String myKey) 
-    {
-        MessageDigest sha = null;
-        try {
-            key = myKey.getBytes("UTF-8");
-            sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); 
-            secretKey = new SecretKeySpec(key, "AES");
-        } 
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } 
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+    public static String encrypt(final String message, final String key) {
+
+    String result = "";
+
+    for (int i = 0, j = 0; i < message.length(); i++) {
+      char c = message.charAt(i);
+      if (Character.isLetter(c)) {
+        if (Character.isUpperCase(c)) {
+          result += (char) ((c + key.toUpperCase().charAt(j) - 2 * 'A') % 26 + 'A');
+
+        } else {
+          result += (char) ((c + key.toLowerCase().charAt(j) - 2 * 'a') % 26 + 'a');
         }
+      } else {
+        result += c;
+      }
+      j = ++j % key.length();
     }
- 
-    public static String encrypt(String strToEncrypt, String secret) 
-    {
-        try
-        {
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("Error while encrypting: " + e.toString());
+    return result;
+  }
+    public static String decrypt(final String message, final String key) {
+    String result = "";
+
+    for (int i = 0, j = 0; i < message.length(); i++) {
+
+      char c = message.charAt(i);
+      if (Character.isLetter(c)) {
+        if (Character.isUpperCase(c)) {
+          result += ((char) ('Z' - (25 - (c - key.toUpperCase().charAt(j))) % 26));
+
+        } else {
+          result += ((char) ('z' - (25 - (c - key.toLowerCase().charAt(j))) % 26));
         }
-        return null;
+      } else {
+        result += c;
+      }
+
+      j = ++j % key.length();
     }
- 
-    public static String decrypt(String strToDecrypt, String secret) 
-    {
-        try
-        {
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("Error while decrypting: " + e.toString());
-        }
-        return null;
-    }
+    return result;
+  }
 }

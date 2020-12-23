@@ -1,6 +1,6 @@
 import UIComp.*;
 import URLHandler.*; 
-
+import AES.*; 
 import java.awt.*;
 import javax.swing.*; 
 import java.awt.event.*;
@@ -11,11 +11,35 @@ class Users{
 }
 
 public class Index extends Thread{
+	static KeyClass aes = new KeyClass(); 
 	static UrlTest server = new UrlTest();
 	static Users user = new Users();
 	static ArrayList<HashMap<String,String>> chats; 
 	static ArrayList<HashMap<String,String>> contacts;
-	static boolean loginState = false;  
+	static boolean loginState = false; 
+
+	static class DecryptText extends Thread{
+		ArrayList<HashMap<String,String>> cs;
+		String keyVal;  
+		public DecryptText(ArrayList<HashMap<String,String>> val, String k){
+			cs = val;
+			keyVal = k;  
+		}
+	
+		public ArrayList<HashMap<String,String>> getText(){
+			return cs; 
+		}
+		
+		@Override 
+		public void run(){
+			for(HashMap<String,String> c:cs){
+				String t = c.get("text");
+				t = aes.decrypt(t,keyVal);
+				c.replace("text", t);
+			}
+		}
+
+	} 
 	static class LoginScreen extends LoginScreenUI implements ActionListener{
 		public LoginScreen(){
 			super();
@@ -31,7 +55,9 @@ public class Index extends Thread{
 			if(res){
 				screenSetState(hs.id);
 				contacts = server.getContacts(user.email);
-				hs.setContacts(contacts);  
+				hs.setContacts(contacts);
+				username.setText("");
+				password.setText("");  
 			}
 			else
 				this.setError(true);
@@ -59,9 +85,13 @@ public class Index extends Thread{
 			}
 			else{
 				String chatText = text.getText();
-				String modified = chatText.replace(" ","%20"); 
-				server.sendChat(user.email,"",modified,selectedChat);
-				text.setText("");
+				if(!chatText.isEmpty()){
+					if(!encrypKey.getText().isEmpty())
+						chatText = aes.encrypt(chatText,encrypKey.getText()); 
+					String modified = chatText.replace(" ","%20"); 
+					server.sendChat(user.email,"",modified,selectedChat);
+					text.setText("");
+				}
 			} 
 		}
 	
@@ -93,6 +123,18 @@ public class Index extends Thread{
 		  	if(loginState){
 				if(hs.selectedChat!=null){
 					chats = server.getChats(hs.selectedChat);
+					if(!hs.encrypKey.getText().isEmpty()){
+						
+						DecryptText d = new DecryptText(chats,hs.encrypKey.getText());
+						d.start(); 
+
+						try{
+							d.join(); 
+						}catch (Exception e){
+
+						}
+						chats = d.getText(); 
+					}
 					hs.setChats(chats, user.email); 
 				}
 			}

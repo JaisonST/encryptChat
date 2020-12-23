@@ -113,7 +113,7 @@ class ContactRender extends JTextArea implements ListCellRenderer<Contact>{
 			
 		public String selectedChat;
 
-		JTextField encrypKey = new JTextField(20);
+		public JTextField encrypKey = new JTextField(20);
 		public JTextField text = new JTextField(10);
 		
 		DefaultListModel<Chat> chatList =  new DefaultListModel<Chat>(); 

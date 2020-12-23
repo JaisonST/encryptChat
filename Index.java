@@ -35,8 +35,7 @@ public class Index extends Thread{
 			for(HashMap<String,String> c:cs){
 				String t = c.get("text");
 				t = aes.decrypt(t,keyVal);
-				System.out.println(t); 
-			 	c.replace("text", t);
+				c.replace("text", t);
 			}
 		}
 
@@ -56,7 +55,9 @@ public class Index extends Thread{
 			if(res){
 				screenSetState(hs.id);
 				contacts = server.getContacts(user.email);
-				hs.setContacts(contacts);  
+				hs.setContacts(contacts);
+				username.setText("");
+				password.setText("");  
 			}
 			else
 				this.setError(true);
@@ -84,11 +85,13 @@ public class Index extends Thread{
 			}
 			else{
 				String chatText = text.getText();
-				if(!encrypKey.getText().isEmpty())
-					chatText = aes.encrypt(chatText,encrypKey.getText()); 
-				String modified = chatText.replace(" ","%20"); 
-				server.sendChat(user.email,"",modified,selectedChat);
-				text.setText("");
+				if(!chatText.isEmpty()){
+					if(!encrypKey.getText().isEmpty())
+						chatText = aes.encrypt(chatText,encrypKey.getText()); 
+					String modified = chatText.replace(" ","%20"); 
+					server.sendChat(user.email,"",modified,selectedChat);
+					text.setText("");
+				}
 			} 
 		}
 	

@@ -64,8 +64,7 @@ public class KeyClass{
         } 
         catch (Exception e) 
         {
-            System.out.println("Error while decrypting: " + e.toString());
+		return strToDecrypt; 
         }
-        return null;
     }
 }

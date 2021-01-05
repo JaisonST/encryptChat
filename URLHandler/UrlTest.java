@@ -7,7 +7,7 @@ import java.io.*;
 public class UrlTest{
 
 	//insert ip of server here 
-	String ip = "http://94.204.183.143/";
+	String ip = "";
  
 	public String returnVal(String call){
 		try{
